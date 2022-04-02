@@ -5,7 +5,10 @@ const screenWidth = Math.round(Dimensions.get('window').width);
 
 import { StyleSheet, View, Text, ImageBackground, Dimensions, StatusBar, Image, AppRegistry, ScrollView, TouchableOpacity, FlatList, Alert, TextInput } from 'react-native'
 import { Container, Header, Title, Button, Icon, Left, Right, Body, Item, Input, Card, CardItem, Footer, FooterTab, Content, Thumbnail, Tab, Tabs, ScrollableTab, Form, Picker, Separator, List, ListItem } from "native-base";
+import { connect } from 'react-redux';
 
+import { bindActionCreators } from 'redux';
+import { editContact } from '../actions/ContactActions';
 
 import data from "./data";
 
@@ -24,7 +27,7 @@ class ContactDetailScreen extends React.Component {
 
     componentDidMount() {
 
-        console.log(this.props.route.params)
+        console.log(this.props)
 
         this.setState({
             firstName: this.props.route.params.item.firstName,
@@ -38,16 +41,23 @@ class ContactDetailScreen extends React.Component {
 
     editDetails() {
 
-        console.log(data[this.state.userIdx])
+        //console.log(data[this.state.userIdx])
 
         if (this.state.firstName == '' || this.state.lastName == '') {
             return Alert.alert('First or Last name cannot be empty')
         }
 
-        data[this.state.userIdx].firstName = this.state.firstName
-        data[this.state.userIdx].lastName = this.state.lastName
-        data[this.state.userIdx].email = this.state.email
-        data[this.state.userIdx].phone = this.state.phone
+        //console.log(this.props)
+
+
+        let edited = { firstName: this.state.firstName, lastName: this.state.lastName, email: this.state.email, phone: this.state.phone, idx: this.state.userIdx }
+
+        this.props.editContact(edited)
+
+        //data[this.state.userIdx].firstName = this.state.firstName
+        //data[this.state.userIdx].lastName = this.state.lastName
+        //data[this.state.userIdx].email = this.state.email
+        //data[this.state.userIdx].phone = this.state.phone
 
         Alert.alert(
             "Success",
@@ -57,6 +67,8 @@ class ContactDetailScreen extends React.Component {
             ],
             { cancelable: false }
         );
+
+
 
 
 
@@ -226,4 +238,11 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ContactDetailScreen;
+const mapDispatchToProps = dispatch => (
+    bindActionCreators({
+        editContact,
+    }, dispatch)
+);
+
+export default connect(null, mapDispatchToProps)(ContactDetailScreen)
+//export default ContactDetailScreen;

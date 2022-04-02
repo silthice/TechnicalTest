@@ -6,7 +6,10 @@ const screenWidth = Math.round(Dimensions.get('window').width);
 import { StyleSheet, View, Text, ImageBackground, Dimensions, StatusBar, Image, AppRegistry, ScrollView, TouchableOpacity, FlatList, Alert, RefreshControl } from 'react-native'
 import { Container, Header, Title, Button, Icon, Left, Right, Body, Item, Input, Card, CardItem, Footer, FooterTab, Content, Thumbnail, Tab, Tabs, ScrollableTab, Form, Picker, Separator, List, ListItem } from "native-base";
 
+import { connect } from 'react-redux';
 
+import { bindActionCreators } from 'redux';
+import { searchContact, resetContact } from '../actions/ContactActions';
 
 import data from "./data";
 
@@ -23,11 +26,16 @@ class SearchScreen extends React.Component {
 
     componentDidMount() {
 
-        //console.log(data)
 
         this.focusListener = this.props.navigation.addListener('focus', () => {
 
             console.log('focus')
+            console.log(this.props)
+
+            this.props.resetContact(true)
+
+            //console.log(this.props.foundContact)
+
             this.setState({ foundData: [], searchText: '' },
                 () => {
 
@@ -60,32 +68,42 @@ class SearchScreen extends React.Component {
 
 
         //console.log(data)
-        //searchText = "m"
-        foundData = []
+        //searchText = "p"
+        //foundData = []
 
-        let found = false
+        //let found = false
 
-        data.forEach((c) => {
-            //console.log(c)
-            let name = c.firstName + " " + c.lastName
-            name = name.toLowerCase()
-            //console.log(name)
-            //console.log(c)
+        //data.forEach((c) => {
+        //    //console.log(c)
+        //    let name = c.firstName + " " + c.lastName
+        //    name = name.toLowerCase()
+        //    //console.log(name)
+        //    //console.log(c)
 
-            if (name.includes(searchText.toLowerCase())) {
-                //console.log('found', c)
-                foundData.push(c)
-                found = true
-            }
+        //    if (name.includes(searchText.toLowerCase())) {
+        //        //console.log('found', c)
+        //        foundData.push(c)
+        //        found = true
+        //    }
 
 
-        })
+        //})
 
-        if (found == true && foundData.length > 0) {
-             return this.setState({ foundData: foundData })
+        //if (found == true && foundData.length > 0) {
+        //     return this.setState({ foundData: foundData })
+        //}
+
+        if (searchText == '') {
+            return Alert.alert('No matching name found, please search using name only')
         }
 
-        return Alert.alert('No matching name found, please search using name only')
+        this.props.searchContact(searchText)
+        this.setState({})
+
+        if (this.props.contacts.foundList.length < 1) {
+            return Alert.alert('No matching name found, please search using name only')
+
+        }
 
     }
 
@@ -132,7 +150,7 @@ class SearchScreen extends React.Component {
                 <FlatList
                     refreshControl={this.refresh()}
                     style={{ flex: 1 }}
-                    data={this.state.foundData}
+                    data={this.props.contacts.foundList}
                     renderItem={({ item, index }) => {
                         return (
 
@@ -182,4 +200,20 @@ const styles = StyleSheet.create({
     },
 });
 
-export default SearchScreen;
+const mapStateToProps = (state) => {
+
+    const { foundContact } = state
+
+    return state
+
+};
+
+const mapDispatchToProps = dispatch => (
+    bindActionCreators({
+        searchContact, resetContact
+    }, dispatch)
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchScreen)
+
+//export default SearchScreen;

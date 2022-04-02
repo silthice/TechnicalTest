@@ -2,6 +2,8 @@
   "ExpandedNodes": [
     "",
     "\\src",
+    "\\src\\actions",
+    "\\src\\reducers",
     "\\src\\screens"
   ],
   "SelectedNode": "\\src\\screens\\SearchScreen.js",

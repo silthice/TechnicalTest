@@ -5,7 +5,10 @@ const screenWidth = Math.round(Dimensions.get('window').width);
 
 import { StyleSheet, View, Text, ImageBackground, Dimensions, StatusBar, Image, AppRegistry, ScrollView, TouchableOpacity, FlatList, Alert, TextInput } from 'react-native'
 import { Container, Header, Title, Button, Icon, Left, Right, Body, Item, Input, Card, CardItem, Footer, FooterTab, Content, Thumbnail, Tab, Tabs, ScrollableTab, Form, Picker, Separator, List, ListItem } from "native-base";
+import { connect } from 'react-redux';
 
+import { bindActionCreators } from 'redux';
+import { addContact } from '../actions/ContactActions';
 
 import data from "./data";
 
@@ -24,7 +27,9 @@ class NewContactScreen extends React.Component {
 
     componentDidMount() {
 
-        console.log(this.props.route.params)
+        //console.log(this.props.route.params)
+
+        //console.log(this.props.addContact)
 
         //this.setState({
         //    firstName: this.props.route.params.item.firstName,
@@ -48,7 +53,8 @@ class NewContactScreen extends React.Component {
 
         console.log('new contact', newContact)
 
-        data.push(newContact)
+        //data.push(newContact)
+        this.props.addContact(newContact)
 
         Alert.alert(
             "Success",
@@ -236,4 +242,12 @@ const styles = StyleSheet.create({
     },
 });
 
-export default NewContactScreen;
+const mapDispatchToProps = dispatch => (
+    bindActionCreators({
+        addContact,
+    }, dispatch)
+);
+
+export default connect(null, mapDispatchToProps)(NewContactScreen)
+
+//export default NewContactScreen;

@@ -13,7 +13,12 @@ import ContactDetailScreen from './src/screens/ContactDetailScreen';
 import NewContactScreen from './src/screens/NewContactScreen';
 import SearchScreen from './src/screens/SearchScreen';
 
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import allReducer from './src/reducers/AllReducer';
+
 const Stack = createStackNavigator();
+const store = createStore(allReducer);
 
 YellowBox.ignoreWarnings(['ViewPageAndroid']);
 LogBox.ignoreAllLogs();
@@ -24,6 +29,7 @@ class App extends React.Component {
 
     render() {
         return (
+            <Provider store={store}>
                 <NavigationContainer>
                     <Stack.Navigator screenOptions={{ headerShown: false }}>
                         <Stack.Screen
@@ -44,6 +50,7 @@ class App extends React.Component {
                         />
                     </Stack.Navigator>
                 </NavigationContainer>
+            </Provider>
         )
     }
 }

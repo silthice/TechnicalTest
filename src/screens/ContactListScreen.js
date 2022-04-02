@@ -6,7 +6,7 @@ const screenWidth = Math.round(Dimensions.get('window').width);
 import { StyleSheet, View, Text, ImageBackground, Dimensions, StatusBar, Image, AppRegistry, ScrollView, TouchableOpacity, FlatList, Alert, RefreshControl } from 'react-native'
 import { Container, Header, Title, Button, Icon, Left, Right, Body, Item, Input, Card, CardItem, Footer, FooterTab, Content, Thumbnail, Tab, Tabs, ScrollableTab, Form, Picker, Separator, List, ListItem } from "native-base";
 
-
+import { connect } from 'react-redux';
 
 import data from "./data";
 
@@ -42,7 +42,7 @@ class ContactListScreen extends React.Component {
     }
 
     render() {
-
+        //console.log(this.props)
         const { modalVisible } = this.state
         return (
             <View style={{ height: screenHeight, flex: 1}}>
@@ -69,7 +69,8 @@ class ContactListScreen extends React.Component {
                 <FlatList
                     refreshControl={this.refresh()}
                     style={{ flex: 1 }}
-                    data={data}
+                    data={this.props.contacts.contactList}
+                    //data={data}
                     renderItem={({ item, index }) => {
                         return (
 
@@ -117,4 +118,15 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ContactListScreen;
+const mapStateToProps = (state) => {
+
+    const { contacts } = state
+
+    return state
+
+};
+
+export default connect(mapStateToProps, null)(ContactListScreen)
+
+
+//export default ContactListScreen;
