@@ -9,7 +9,7 @@ import { Container, Header, Title, Button, Icon, Left, Right, Body, Item, Input,
 
 import data from "./data";
 
-class ContactDetailScreen extends React.Component {
+class NewContactScreen extends React.Component {
 
     constructor(props) {
         super(props);
@@ -26,17 +26,17 @@ class ContactDetailScreen extends React.Component {
 
         console.log(this.props.route.params)
 
-        this.setState({
-            firstName: this.props.route.params.item.firstName,
-            lastName: this.props.route.params.item.lastName,
-            email: this.props.route.params.item.email,
-            phone: this.props.route.params.item.phone,
-            userIdx: this.props.route.params.index,
-        })
+        //this.setState({
+        //    firstName: this.props.route.params.item.firstName,
+        //    lastName: this.props.route.params.item.lastName,
+        //    email: this.props.route.params.item.email,
+        //    phone: this.props.route.params.item.phone,
+        //    userIdx: this.props.route.params.index,
+        //})
 
     }
 
-    editDetails() {
+    addNewContact() {
 
         console.log(data[this.state.userIdx])
 
@@ -44,19 +44,25 @@ class ContactDetailScreen extends React.Component {
             return Alert.alert('First or Last name cannot be empty')
         }
 
-        data[this.state.userIdx].firstName = this.state.firstName
-        data[this.state.userIdx].lastName = this.state.lastName
-        data[this.state.userIdx].email = this.state.email
-        data[this.state.userIdx].phone = this.state.phone
+        let newContact = { firstName: this.state.firstName, lastName: this.state.lastName, email: this.state.email, phone: this.state.phone };
+
+        console.log('new contact', newContact)
+
+        data.push(newContact)
 
         Alert.alert(
             "Success",
-            "Contact edited successfully.",
+            "Contact added successfully.",
             [
                 { text: "Ok", onPress: () => this.props.navigation.goBack() },
             ],
             { cancelable: false }
         );
+
+        //data[this.state.userIdx].firstName = this.state.firstName
+        //data[this.state.userIdx].lastName = this.state.lastName
+        //data[this.state.userIdx].email = this.state.email
+        //data[this.state.userIdx].phone = this.state.phone
 
 
 
@@ -78,8 +84,8 @@ class ContactDetailScreen extends React.Component {
                     </Body>
                     <Right style={{ flex: 1 }}>
 
-                        <TouchableOpacity style={{ marginTop: 25 }} onPress={()=>{this.editDetails()}}>
-                            <Text style={{color: '#ff8c00'}}>Save</Text>
+                        <TouchableOpacity style={{ marginTop: 25 }} onPress={() => { this.addNewContact() }}>
+                            <Text style={{ color: '#ff8c00' }}>Save</Text>
                         </TouchableOpacity>
                     </Right>
                 </Header>
@@ -91,7 +97,7 @@ class ContactDetailScreen extends React.Component {
                     </View>
 
                     <View style={{ paddingHorizontal: 15 }}>
-                        <View style={{marginVertical: 5}}>
+                        <View style={{ marginVertical: 5 }}>
                             <Text style={{ fontWeight: 'bold', fontSize: 20, color: 'black' }}>Main Information</Text>
                         </View>
 
@@ -105,7 +111,8 @@ class ContactDetailScreen extends React.Component {
                                 <TextInput
                                     ref={ref => { this._inputFirstName = ref }}
                                     style={{ backgroundColor: 'white', height: 35, width: screenWidth * 0.7, borderRadius: 5 }}
-                                    defaultValue={this.props.route.params.item.firstName}
+                                    //defaultValue={this.props.route.params.item.firstName}
+                                    placeholder="First Name"
                                     editable
                                     maxLength={40}
                                     //onChangeText={(val)=>{ this.handleUserIdInput(val) }}
@@ -136,7 +143,8 @@ class ContactDetailScreen extends React.Component {
                                     //ref={ref => { this._inputLastName = ref }}
                                     ref={(input) => { this._inputLastName = input; }}
                                     style={{ backgroundColor: 'white', height: 35, width: screenWidth * 0.7, borderRadius: 5 }}
-                                    defaultValue={this.props.route.params.item.lastName}
+                                    //defaultValue={this.props.route.params.item.lastName}
+                                    placeholder="Last Name"
                                     editable
                                     maxLength={40}
                                     //onChangeText={(val)=>{ this.handleUserIdInput(val) }}
@@ -167,7 +175,8 @@ class ContactDetailScreen extends React.Component {
                                     //ref={ref => { this._inputEmail = ref }}
                                     ref={(input) => { this._inputEmail = input; }}
                                     style={{ backgroundColor: 'white', height: 35, width: screenWidth * 0.7, borderRadius: 5 }}
-                                    defaultValue={this.props.route.params.item.email}
+                                    //defaultValue={this.props.route.params.item.email}
+                                    placeholder="Email"
                                     editable
                                     maxLength={40}
                                     //onChangeText={(val)=>{ this.handleUserIdInput(val) }}
@@ -198,7 +207,8 @@ class ContactDetailScreen extends React.Component {
                                     //ref={ref => { this._inputPhone = ref }}
                                     ref={(input) => { this._inputPhone = input; }}
                                     style={{ backgroundColor: 'white', height: 35, width: screenWidth * 0.7, borderRadius: 5 }}
-                                    defaultValue={this.props.route.params.item.phone}
+                                    //defaultValue={this.props.route.params.item.phone}
+                                    placeholder="Phone"
                                     editable
                                     maxLength={40}
                                     //onChangeText={(val)=>{ this.handleUserIdInput(val) }}
@@ -226,4 +236,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ContactDetailScreen;
+export default NewContactScreen;
