@@ -11,6 +11,7 @@ import {
 import ContactListScreen from './src/screens/ContactListScreen';
 import ContactDetailScreen from './src/screens/ContactDetailScreen';
 import NewContactScreen from './src/screens/NewContactScreen';
+import SearchScreen from './src/screens/SearchScreen';
 
 const Stack = createStackNavigator();
 
@@ -36,6 +37,10 @@ class App extends React.Component {
                         <Stack.Screen
                             name="NewContactScreen"
                             component={NewContactScreen}
+                        />
+                        <Stack.Screen
+                            name="SearchScreen"
+                            component={SearchScreen}
                         />
                     </Stack.Navigator>
                 </NavigationContainer>
